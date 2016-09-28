@@ -1,0 +1,1 @@
+puts  "Jogo da adivinhação!"
