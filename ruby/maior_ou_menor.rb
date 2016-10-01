@@ -1,8 +1,8 @@
 def boas_vindas
-	puts  "Jogo da adivinhação!\n\n"
+	puts  "\n\n         Benvindo, \n   Jogo da adivinhação!\n\n"
 	puts "qual é o seu nome?"
-	nome = gets
-	puts "muito prazer, " + nome
+	nome = gets.strip
+	puts "muito prazer, #{nome}"
 	puts "\nvamos começar o jogo\n\n\n"
 end
 
@@ -13,12 +13,12 @@ def escolhendo_numero_secreto
 	numero_escolhido
 end
 
-def pede_um_numero (tentativas, numero_tentativas)
-
-	puts "tentariva:  " + tentativas.to_s + " de  " + numero_tentativas.to_s
-	puts "\n\n\n\ntente adivinhar o numero escolhido?"
-	chute = gets
-	puts "\nvoce chutou, " + chute
+def pede_um_numero (chutes, tentativas, numero_tentativas)
+	puts "tentativa: #{tentativas} de #{numero_tentativas}"
+	puts "chutes até agora: #{chutes}"
+	puts "\ntente adivinhar o numero escolhido?"
+	chute = gets.strip
+	puts "\nvoce chutou, #{chute}"
 	chute.to_i
 end
 
@@ -30,11 +30,11 @@ def verifica_se_acertou (numero_secreto, chute)
 	 	return true
 	end
 
-	puts "Infelizmente voce errou"
+	puts "\n\nInfelizmente voce errou"
 	if numero_secreto > chute
-	 	puts "\n\no numeor segreto é maior\n\n"
+	 	puts "\no numeor segreto é maior\n"
 	else
-		puts  "\n\no numero segreto é menor\n\n"
+		puts  "\n o numero segreto é menor\n"
 	end  
 	false
 end
@@ -42,9 +42,14 @@ end
 boas_vindas
 numero_secreto = escolhendo_numero_secreto
 
-numero_tentativas = 3
+numero_tentativas = 5
+chutes = []
+
 for tentativas in 1..numero_tentativas
 	
-	chute = pede_um_numero tentativas, numero_tentativas
+	chute = pede_um_numero chutes, tentativas, numero_tentativas
+	chutes << chute.to_i
+
 	break if verifica_se_acertou numero_secreto, chute
 end
+
