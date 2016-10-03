@@ -83,7 +83,7 @@ def joga (nome, dificudade)
 
 		break if verifica_se_acertou numero_secreto, chute
 	end
-	puts "você ganhou: #{pontos} pontos."
+	puts "você ganhou: #{pontos} pontos."	
 
 	if verifica_se_acertou = false
 		puts "o numero secreto é #{numero_secreto}"
@@ -97,12 +97,14 @@ def nao_quero_jogar?
 	nao_quero_jogar.upcase  == "N"	
 end
 
+
+
 nome = boas_vindas
 loop do
 	dificudade = pede_dificudade 
 	joga nome, dificudade
-	if nao_quero_jogar?
-		break
+
+	break if nao_quero_jogar?
 	end
 	
 end
