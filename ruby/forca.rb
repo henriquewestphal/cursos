@@ -4,6 +4,8 @@ def boas_vindas
 	puts "@@@@@@@@@@@@@@@@@@@@@"
 	puts "Jogo da forca!\n\n"
 	puts "qual é o seu nome?"
+	#strip é pra cortar os  espaços
+	#upcase é para colocar sempre em maiusculo
 	nome = gets.strip.upcase
 	puts "Muito prazer, #{nome}"
 	puts "\nvamos começar o jogo!!\n\n\n"
@@ -19,7 +21,7 @@ def escolhe_palavra_secreta
 end
 
 def nao_quero_jogar?
-	puts "deseja jogar noevamente?"
+	puts "deseja jogar novamente? (S/N)"
 	quero_jogar = gets.strip	
 	nao_quero_jogar = quero_jogar.upcase == "N"
 end
@@ -34,6 +36,8 @@ def pede_um_chute(chutes, erros)
 	chute	
 end
 
+
+
 def joga(nome)
 	palavra_secreta = escolhe_palavra_secreta
 
@@ -43,12 +47,30 @@ def joga(nome)
 
 	while erros < 5
 		chute = pede_um_chute chutes, erros
+		
+		#include é para verificar se o chute ja esta dentro do chutes
+		if chutes.include? chute
+			puts "voce ja chutou #{chute}"
+			#next é pra retornar ao while mais proximo
+			next
+		end
+
 		chutes << chute
 		erros += 1	
 
 		chutou_uma_letra = chute.size == 1
 		if chutou_uma_letra
-			
+			letra_procurada = chute [0]
+			#cont conta quantas vezes a letra_procurada esta dentro da palavra_secreta
+			total_encontrado = palavra_secreta.count letra_procurada
+
+			if total_encontrado == 0
+				puts "letra nao encontrada."
+				erros += 1
+			else
+				puts "letra encontrada #{total_encontrado} vezes."
+			end
+
 		else
 			acertou = chute == palavra_secreta
 			if acertou	
@@ -60,13 +82,8 @@ def joga(nome)
 				pontos_ate_agora -= 30
 				erros += 1
 		end
-
-
 	end
-
-
 	puts "voce ganhous #{pontos_ate_agora} pontos."
-	
 end
 
 nome = boas_vindas
