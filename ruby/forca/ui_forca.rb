@@ -13,6 +13,15 @@ def boas_vindas
 
 end
 
+def avisa_pontos_totais(pontos_totais)
+	puts "voce possui #{pontos_totais}"
+end
+
+def avisa_campeao_atual(dados)
+	puts "nosso campeao atual é #{dados[0]} com #{dados[1]} pontos"
+
+end
+
 def nao_quero_jogar?
 	puts "deseja jogar novamente? (S/N)"
 	quero_jogar = gets.strip
