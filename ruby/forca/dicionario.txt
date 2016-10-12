@@ -13,6 +13,7 @@ cadeira
 celular
 smartphone
 tablet
+paralelepipedo
 notebook
 impressora
 televisão
@@ -30,4 +31,3 @@ cabide
 garrafa
 ventilador
 aviao
-
