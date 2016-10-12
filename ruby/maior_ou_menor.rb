@@ -12,7 +12,7 @@ end
 
 def escolhendo_numero_secreto (dificudade)
 	case dificudade
-	when 1 
+	when 1
 		maximo = 30
 	when 2
 		maximo = 60
@@ -22,10 +22,10 @@ def escolhendo_numero_secreto (dificudade)
 		maximo = 150
 	else
 		maximo = 200
-	end	
+	end
 	puts "escolhendo um numero secreto  de 0 a #{maximo}"
 	numero_escolhido = rand(maximo)
-	puts "escolhido\n\n\n"	
+	puts "escolhido\n\n\n"
 	numero_escolhido
 end
 
@@ -51,7 +51,7 @@ def verifica_se_acertou (numero_secreto, chute)
 	 	puts "\no numeor segreto é maior\n"
 	else
 		puts  "\n o numero segreto é menor\n"
-	end  
+	end
 	false
 end
 
@@ -69,7 +69,7 @@ def joga (nome, dificudade)
 	chutes = []
 
 	for tentativas in 1..numero_tentativas
-		
+
 		chute = pede_um_numero chutes, tentativas, numero_tentativas
 		chutes << chute
 
@@ -83,28 +83,26 @@ def joga (nome, dificudade)
 
 		break if verifica_se_acertou numero_secreto, chute
 	end
-	puts "você ganhou: #{pontos} pontos."	
+	puts "você ganhou: #{pontos} pontos."
 
-	if verifica_se_acertou = false
+	if verifica_se_acertou == false
 		puts "o numero secreto é #{numero_secreto}"
 	end
-	
+
 end
 
 def nao_quero_jogar?
 	puts "Deseja jogar novamente (S/N)"
 	nao_quero_jogar = gets.strip
-	nao_quero_jogar.upcase  == "N"	
+	nao_quero_jogar.upcase  == "N"
 end
 
 
 
 nome = boas_vindas
 loop do
-	dificudade = pede_dificudade 
+	dificudade = pede_dificudade
 	joga nome, dificudade
 
 	break if nao_quero_jogar?
 	end
-	
-end

@@ -14,6 +14,18 @@ def pede_um_chute_valido (chutes, erros, mascara)
 	end
 end
 
+def escolhe_palavra_secreta
+	puts "Escolhendo a palavra secreta"
+	texto = File.read("dicionario.txt")
+	todas_as_palavras = texto.split "\n"
+	numero_escolhido = rand(todas_as_palavras.size)
+	palavra_secreta = todas_as_palavras[numero_escolhido]
+	puts "palavra secreta com #{palavra_secreta.size} letras, escolhida, Boa Sorte"
+	palavra_secreta
+end
+
+
+
 def palavra_mascarada(chutes, palavra_secreta)
 	mascara = ""
 	for letra in palavra_secreta.chars
@@ -34,7 +46,7 @@ def joga(nome)
 	chutes = []
 	pontos_ate_agora = 0
 
-	while erros < 5
+	while erros < 10
 		mascara = palavra_mascarada chutes, palavra_secreta
 		chute = pede_um_chute_valido chutes, erros, mascara
 		chutes << chute
