@@ -38,7 +38,15 @@ def palavra_mascarada(chutes, palavra_secreta)
 	mascara
 end
 
+def salva_rank(nome, pontos_totais)
+ conteudo = "#{nome}\n#{pontos_totais}"
+ File.write "rank.txt", conteudo
+end
 
+def le_rank
+	conteudo = File.read "rank.txt"
+	conteudo.split "\n"
+end
 def joga(nome)
 	palavra_secreta = escolhe_palavra_secreta
 
@@ -50,7 +58,6 @@ def joga(nome)
 		mascara = palavra_mascarada chutes, palavra_secreta
 		chute = pede_um_chute_valido chutes, erros, mascara
 		chutes << chute
-		erros += 1
 
 		chutou_uma_letra = chute.size == 1
 		if chutou_uma_letra
@@ -58,17 +65,17 @@ def joga(nome)
 			#cont conta quantas vezes a letra_procurada esta dentro da palavra_secreta
 			total_encontrado = palavra_secreta.count letra_procurada
 
-			if total_encontrado == 0
-				puts "letra nao encontrada."
-				erros += 1
-			else
-				puts "letra encontrada #{total_encontrado} vezes."
-			end
+				if total_encontrado == 0
+					puts "letra nao encontrada."
+					erros += 1
+				else
+					puts "letra encontrada #{total_encontrado} vezes."
+				end
 
 		else
 			acertou = chute == palavra_secreta
 			if acertou
-				puts "Parabens, voce acertou!"
+				avisa_acertou_palavra
 				pontos_ate_agora +=100
 				break
 			end
@@ -77,5 +84,5 @@ def joga(nome)
 				erros += 1
 		end
 	end
-	puts "voce ganhous #{pontos_ate_agora} pontos."
+	pontos_ate_agora
 end

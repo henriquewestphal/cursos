@@ -10,6 +10,63 @@ def boas_vindas
 	puts "Muito prazer, #{nome}"
 	puts "\nvamos começar o jogo!!\n\n\n"
 	nome
+end
+
+def avisa_acertou_palavra
+        puts "\nParabéns, você ganhou!"
+        puts
+
+        puts "       ___________      "
+        puts "      '._==_==_=_.'     "
+        puts "      .-\\:      /-.    "
+        puts "     | (|:.     |) |    "
+        puts "      '-|:.     |-'     "
+        puts "        \\::.    /      "
+        puts "         '::. .'        "
+        puts "           ) (          "
+        puts "         _.' '._        "
+        puts "        '-------'       "
+        puts
+end
+
+
+
+def desenha_forca(erros)
+    cabeca = "   "
+    corpo = " "
+    pernas = "   "
+    bracos = "   "
+    if erros >= 1
+        cabeca = "(--)"
+    end
+    if erros >= 2
+        bracos = " || "
+		end
+		if erros >= 3
+        corpo = "||"
+    end
+    if erros >= 4
+        bracos = "/|| "
+    end
+    if erros >= 5
+        bracos = "/||\\"
+    end
+		if erros >= 6
+			pernas = "   / "
+		end
+		if erros >= 7
+			pernas = "   /\\"
+		end
+
+    puts "  _______       "
+    puts " |/      |      "
+    puts " |      #{cabeca}  "
+    puts " |      #{bracos}  "
+    puts " |       #{corpo}  "
+    puts " |    #{pernas}  "
+    puts " |              "
+    puts "_|___           "
+    puts
 
 end
 
@@ -30,6 +87,7 @@ end
 
 def cabecalho_tentativas(chutes, erros, mascara)
   puts "\n\n\n"
+	desenha_forca erros
 	puts "quantos erros até agora #{erros}"
 	puts "chutes até agora: #{chutes}"
   puts mascara
