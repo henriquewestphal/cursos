@@ -19,25 +19,73 @@ def encontra_jogador(mapa)
 
 end
 
-def calcula_nova_posicao(heroi, direcao)
-  case direcao
-    when "W"
-      heroi[0] -= 1
-    when "S"
-      heroi[0] += 1
-    when "A"
-      heroi[1] -= 1
-    when "D"
-      heroi[1] += 1
-    when "w"
-      heroi[0] -= 1
-    when "s"
-      heroi[0] += 1
-    when "a"
-      heroi[1] -= 1
-    when "d"
-      heroi[1] += 1
+def posicoes_validas(mapa, novo_mapa, posicao)
+  posicoes = []
+
+  baixo = [posicao[0] +1, posicao[1]]
+  if posicao_valida?(mapa, baixo) && posicao_valida?(novo_mapa, baixo)
+    posicoes << baixo
   end
+  cima = [posicao[0] -1, posicao[1]]
+  if posicao_valida?(mapa, cima) && posicao_valida?(novo_mapa, cima)
+    posicoes << cima
+  end
+  esquerda = [posicao[0],posicao[1] -1]
+  if posicao_valida?(mapa, esquerda) && posicao_valida?(novo_mapa, esquerda)
+    posicoes << esquerda
+  end
+  direita = [posicao[0],posicao[1] +1]
+  if posicao_valida?(mapa, direita) && posicao_valida?(novo_mapa, direita)
+    posicoes << direita
+  end
+  posicoes
+end
+
+def copia_mapa(mapa)
+  novo_mapa = mapa.join("\n").tr("F", " ").split "\n"
+end
+
+
+def move_fantasma(mapa, novo_mapa, linha, coluna)
+  posicoes = posicoes_validas mapa, novo_mapa [linha, coluna]
+
+  return if posicoes.empty?
+
+    posicao = posicoes[1]
+    mapa[linha][coluna] = " "
+    novo_mapa[posicao[0]][posicao[1]] = "F"
+end
+
+def move_fantasmas(mapa)
+  caractere_do_fantasma = "F"
+  novo_mapa = copia_mapa mapa
+  mapa.each_with_index do |linha_atual, linha|
+    linha_atual.chars.each_with_index do |caractere_atual, coluna|
+      eh_fantasma = caractere_atual == caractere_do_fantasma
+      if eh_fantasma
+        move_fantasma mapa, novo_mapa, linha, coluna
+      end
+    end
+  end
+  novo_mapa
+end
+
+
+def calcula_nova_posicao(heroi, direcao)
+#array associativo
+  movimentos = {
+    "W" => [-1, 0],
+    "S" => [+1, 0],
+    "A" => [0, -1],
+    "D" => [0, +1],
+    "w" => [-1, 0],
+    "s" => [+1, 0],
+    "a" => [0, -1],
+    "d" => [0, +1]
+  }
+  movimento = movimentos[direcao]
+  heroi[0] += movimento[0]
+  heroi[1] += movimento[1]
   heroi
 end
 
@@ -46,13 +94,14 @@ def posicao_valida? (mapa, posicao)
   linhas = mapa.size
   colunas = mapa[0].size
   atingiu_muro = mapa[posicao[0]][posicao[1]] == "X"
+  atingiu_fantasma = mapa[posicao[0]][posicao[1]] == "F"
   estourou_linhas = posicao[0] < 0 || posicao[0] >= linhas
   estourou_colunas = posicao[1] < 0 || posicao[1] >= colunas
 
   if estourou_linhas || estourou_colunas
     return false
   end
-  if atingiu_muro
+  if atingiu_muro || atingiu_fantasma
     return false
   end
   true
@@ -73,7 +122,7 @@ def joga(nome)
         end
         mapa[heroi_antigo[0]] [heroi_antigo[1]] = " "
         mapa[nova_posicao[0]] [nova_posicao[1]] = "H"
-
+        mapa = move_fantasmas mapa
     #  mapa[nova_posicao[0]][nova_posicao[1]] = "H"
     end
 end
