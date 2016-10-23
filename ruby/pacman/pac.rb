@@ -15,43 +15,56 @@ def encontra_jogador(mapa)
         return [linha, heroi_esta_aqui]
       end
   end
-  #nao achei
-
+  nil
 end
 
-def posicoes_validas(mapa, novo_mapa, posicao)
-  posicoes = []
+def soma_vetor(vetor1, vetor2)
+  [vetor1[0] + vetor2[0], vetor1[1] + vetor2[1]]
+end
 
-  baixo = [posicao[0] +1, posicao[1]]
-  if posicao_valida?(mapa, baixo) && posicao_valida?(novo_mapa, baixo)
-    posicoes << baixo
-  end
-  cima = [posicao[0] -1, posicao[1]]
-  if posicao_valida?(mapa, cima) && posicao_valida?(novo_mapa, cima)
-    posicoes << cima
-  end
-  esquerda = [posicao[0],posicao[1] -1]
-  if posicao_valida?(mapa, esquerda) && posicao_valida?(novo_mapa, esquerda)
-    posicoes << esquerda
-  end
-  direita = [posicao[0],posicao[1] +1]
-  if posicao_valida?(mapa, direita) && posicao_valida?(novo_mapa, direita)
-    posicoes << direita
+def posicoes_validas_em(mapa, novo_mapa, posicao)
+  posicoes = []
+  movimentos = [[+1, 0], [0, +1], [-1, 0], [0, -1]]
+  movimentos.each do |movimento|
+    nova_posicao = soma_vetor(movimento, posicao)
+    if posicao_valida?(mapa, nova_posicao) && posicao_valida?(novo_mapa, nova_posicao)
+      posicoes << nova_posicao
+    end
   end
   posicoes
 end
+  #intigo esquema de movimentacao dos fantasmas
+  #baixo = [posicao[0] + 1, posicao[1]]
+  #if posicao_valida?(mapa, baixo) && posicao_valida?(novo_mapa, baixo)
+  #  posicoes << baixo
+  #end
+  #cima = [posicao[0] - 1, posicao[1]]
+  #if posicao_valida?(mapa, cima) && posicao_valida?(novo_mapa, cima)
+  #  posicoes << cima
+  #end
+  #esquerda = [posicao[0],posicao[1] - 1]
+  #if posicao_valida?(mapa, esquerda) && posicao_valida?(novo_mapa, esquerda)
+  #  posicoes << esquerda
+  #end
+  #direita = [posicao[0],posicao[1] + 1]
+  #if posicao_valida?(mapa, direita) && posicao_valida?(novo_mapa, direita)
+  #  posicoes << direita
+  #end
+  #posicoes
 
 def copia_mapa(mapa)
   novo_mapa = mapa.join("\n").tr("F", " ").split "\n"
+
+  return novo_mapa
 end
 
 
 def move_fantasma(mapa, novo_mapa, linha, coluna)
-  posicoes = posicoes_validas mapa, novo_mapa [linha, coluna]
+  posicoes = posicoes_validas_em mapa, novo_mapa, [linha, coluna]
 
   return if posicoes.empty?
-
-    posicao = posicoes[1]
+    aleatorio = rand posicoes.size
+    posicao = posicoes[aleatorio]
     mapa[linha][coluna] = " "
     novo_mapa[posicao[0]][posicao[1]] = "F"
 end
@@ -93,8 +106,8 @@ def posicao_valida? (mapa, posicao)
 
   linhas = mapa.size
   colunas = mapa[0].size
-  atingiu_muro = mapa[posicao[0]][posicao[1]] == "X"
-  atingiu_fantasma = mapa[posicao[0]][posicao[1]] == "F"
+  atingiu_muro = mapa[posicao[0]] [posicao[1]] == "X"
+  atingiu_fantasma = mapa[posicao[0]] [posicao[1]] == "F"
   estourou_linhas = posicao[0] < 0 || posicao[0] >= linhas
   estourou_colunas = posicao[1] < 0 || posicao[1] >= colunas
 
@@ -123,7 +136,10 @@ def joga(nome)
         mapa[heroi_antigo[0]] [heroi_antigo[1]] = " "
         mapa[nova_posicao[0]] [nova_posicao[1]] = "H"
         mapa = move_fantasmas mapa
-    #  mapa[nova_posicao[0]][nova_posicao[1]] = "H"
+        if !encontra_jogador(mapa)
+          game_over
+          break
+        end
     end
 end
 

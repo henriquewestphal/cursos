@@ -16,6 +16,11 @@ def desenha_mapa mapa
 
 end
 
+def game_over
+	puts "\n\n\n\n"
+	puts " Game Over!!"
+end
+
 def pede_movimento
   puts "para onde deseja ir?"
   movimento = gets.strip
