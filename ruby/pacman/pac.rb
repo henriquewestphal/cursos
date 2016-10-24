@@ -1,5 +1,5 @@
 require_relative "ui"
-
+require_relative "heroi"
 def le_mapa(numero)
   arquivo = "mapa#{numero}.txt"
   texto = File.read arquivo
@@ -12,7 +12,10 @@ def encontra_jogador(mapa)
   mapa.each_with_index do |linha_atual, linha|
     heroi_esta_aqui = linha_atual.index nosso_heroi
       if heroi_esta_aqui
-        return [linha, heroi_esta_aqui]
+        jogador = Heroi.new
+        jogador.linha = linha
+        jogador.coluna = heroi_esta_aqui
+        return jogador
       end
   end
   nil
@@ -84,32 +87,13 @@ def move_fantasmas(mapa)
 end
 
 
-def calcula_nova_posicao(heroi, direcao)
-#array associativo
-  movimentos = {
-    "W" => [-1, 0],
-    "S" => [+1, 0],
-    "A" => [0, -1],
-    "D" => [0, +1],
-    "w" => [-1, 0],
-    "s" => [+1, 0],
-    "a" => [0, -1],
-    "d" => [0, +1]
-  }
-  movimento = movimentos[direcao]
-  heroi[0] += movimento[0]
-  heroi[1] += movimento[1]
-  heroi
-end
-
-def posicao_valida? (mapa, posicao)
-
+def posicao_valida?(mapa, posicao_atual)
   linhas = mapa.size
   colunas = mapa[0].size
-  atingiu_muro = mapa[posicao[0]] [posicao[1]] == "X"
-  atingiu_fantasma = mapa[posicao[0]] [posicao[1]] == "F"
-  estourou_linhas = posicao[0] < 0 || posicao[0] >= linhas
-  estourou_colunas = posicao[1] < 0 || posicao[1] >= colunas
+  atingiu_muro = mapa[posicao_atual[0]][posicao_atual[1]] == "X"
+  atingiu_fantasma = mapa[posicao_atual[0]][posicao_atual[1]] == "F"
+  estourou_linhas = posicao_atual[0] < 0 || posicao_atual[0] >= linhas
+  estourou_colunas = posicao_atual[1] < 0 || posicao_atual[1] >= colunas
 
   if estourou_linhas || estourou_colunas
     return false
@@ -120,21 +104,42 @@ def posicao_valida? (mapa, posicao)
   true
 end
 
+def executa_remocao(mapa, posicao, quantidade)
+  if mapa[posicao.linha][posicao.coluna] == "X"
+    return
+  end
+  #mapa[posicao.linha][posicao.coluna] = " "
+  posicao.remove_do mapa
+  remove mapa, posicao, quantidade - 1
+end
+
+def remove(mapa, posicao, quantidade)
+    if quantidade == 0
+      return
+    end
+    executa_remocao mapa, posicao.direita, quantidade
+    executa_remocao mapa, posicao.cima, quantidade
+    executa_remocao mapa, posicao.esquerda, quantidade
+    executa_remocao mapa, posicao.baixo, quantidade
+end
 
 def joga(nome)
-    mapa = le_mapa 2
+    mapa = le_mapa 3
 
     while true
       desenha_mapa mapa
       direcao = pede_movimento
       heroi = encontra_jogador mapa
-      heroi_antigo = encontra_jogador mapa
-      nova_posicao = calcula_nova_posicao heroi, direcao
-        if !posicao_valida? mapa, nova_posicao
+      nova_posicao = heroi.calcula_nova_posicao direcao
+        if !posicao_valida? mapa, nova_posicao.to_array
           next
         end
-        mapa[heroi_antigo[0]] [heroi_antigo[1]] = " "
-        mapa[nova_posicao[0]] [nova_posicao[1]] = "H"
+        heroi.remove_do mapa
+        if mapa[nova_posicao.linha][nova_posicao.coluna] == "*"
+          remove mapa, nova_posicao, 4
+        end
+        nova_posicao.coloca_no mapa
+
         mapa = move_fantasmas mapa
         if !encontra_jogador(mapa)
           game_over
