@@ -1,0 +1,14 @@
+current directory: /home/henrique/DRIVE/alura/cursos/ruby/lojavirtual/path/ruby/gems/json-2.0.2/ext/json
+/usr/bin/ruby -r ./siteconf20161024-2220-hd8lde.rb extconf.rb 
+creating Makefile
+
+current directory: /home/henrique/DRIVE/alura/cursos/ruby/lojavirtual/path/ruby/gems/json-2.0.2/ext/json
+make "DESTDIR=" clean
+rm -f .so  *.o  *.bak mkmf.log .*.time
+
+current directory: /home/henrique/DRIVE/alura/cursos/ruby/lojavirtual/path/ruby/gems/json-2.0.2/ext/json
+make "DESTDIR="
+make: Nothing to be done for 'all'.
+
+current directory: /home/henrique/DRIVE/alura/cursos/ruby/lojavirtual/path/ruby/gems/json-2.0.2/ext/json
+make "DESTDIR=" install
