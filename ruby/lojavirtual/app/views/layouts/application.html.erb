@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Lojavirtual</title>
+    <title>Loja Virtual</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+  <%= nav_bar brand: "nome_loja", brand_link: root_url, fixed: :top, responsive: true %>
+
+  <div class="container"></br></br></br>
+
+      <%= yield %>
+
+  </div>
   </body>
 </html>
