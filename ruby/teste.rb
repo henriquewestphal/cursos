@@ -17,7 +17,7 @@ chutes[tentativa_chute] = chute.to_i
 tentativa_chute +=1
 
 puts chutes
-puts "\n\n\n\n"
+puts "\n\n\n\n\n"
 
 
 #outra forma de adicionar valor na array
